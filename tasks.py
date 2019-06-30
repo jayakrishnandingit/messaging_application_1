@@ -1,6 +1,6 @@
 import factory
 
-from messaging_application_1.users import generate_users
+from users import generate_users
 
 
 class Task(object):
