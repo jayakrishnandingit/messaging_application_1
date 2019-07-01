@@ -1,10 +1,10 @@
 import logging
 
 from logging_setup import setup_logging
+setup_logging()
 from tasks import Task, generate_task
 from notifications.send_mail import send_task_update_email
 
-setup_logging()
 LOGGER = logging.getLogger(__name__)
 
 

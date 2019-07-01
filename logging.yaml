@@ -10,7 +10,17 @@ handlers:
         formatter: simple
         stream: ext://sys.stdout
 loggers:
-    mapp_1:
+    pika_client:
+        level: DEBUG
+        handlers: [console]
+        propagate: yes
+
+    app:
+        level: DEBUG
+        handlers: [console]
+        propagate: yes
+
+    notifications:
         level: DEBUG
         handlers: [console]
         propagate: yes

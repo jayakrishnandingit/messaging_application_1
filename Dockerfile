@@ -8,6 +8,7 @@ RUN pip install --upgrade pip
 RUN pip install -r /code/requirements.txt
 
 COPY logging.yaml /code/logging.yaml
+COPY logging_setup.py /code/logging_setup.py
 COPY pika_client/ /code/pika_client/
 COPY . /code/
 

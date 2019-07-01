@@ -12,7 +12,7 @@ class EmailPublisher(BasePubSubPublisher):
     pass
 
 
-def publish_message(msg, connector, exchange_type='topic', routing_key='notifications.task.email'):
+def publish_message(msg, connector, exchange_type='topic', routing_key='notifications.email'):
     LOGGER.info("Creating EmailPublisher.")
     publisher = EmailPublisher(
         connector,
@@ -20,17 +20,26 @@ def publish_message(msg, connector, exchange_type='topic', routing_key='notifica
         exchange='notifications_x',
         exchange_type=exchange_type,
         routing_key=routing_key)
+    callback = functools.partial(publisher.publish_message, msg)
+    publisher.register_callback('on_exchange_declareok', callback)
     publisher.start()
-    publisher.publish_message(msg)
-    publisher.stop()
-    LOGGER.info("Message send. Stopped EmailPublisher.")
+
+
+def get_task_email_content(task):
+    return '''Hi,
+
+    Task {0.title} is updated with new status {0.status}.
+
+    Cheers,
+    Team
+    '''.format(task)
 
 
 def send_task_update_email(task):
     connector = Connector(EnvironmentVariable.AMQP_URL)
     msg = {
         'recepients': [u.email for u in task.users],
-        'task': {'title': task.title, 'status': task.status}
+        'text': get_task_email_content(task)
     }
     callback = functools.partial(publish_message, msg, connector)
     connector.register_callback('on_channel_open', callback)

@@ -23,7 +23,7 @@ class TaskFactory(factory.Factory):
         model = Task
 
     task_id = factory.Sequence(lambda n: n)
-    title = factory.Faker('title')
+    title = factory.Sequence(lambda n: 'Title %d' % n)
     description = factory.Faker('text')
     status = factory.Iterator([Task.NEW, Task.IN_PROGRESS, Task.DONE])
     users = generate_users()
