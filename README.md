@@ -11,3 +11,6 @@ A service that when run will publish a message to the RabbitMQ exchange and shut
 * faker.
 * factory_boy.
 * RabbitMQ docker image.
+
+# Environment variables
+* AMQP_URL.
