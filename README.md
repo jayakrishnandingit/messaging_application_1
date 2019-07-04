@@ -6,6 +6,8 @@ A service that when run will publish a message to the RabbitMQ exchange and shut
 - Docker.
 
 # Packages/Libraries
-- Python3.
-- pika.
-- RabbitMQ docker image.
+* Python3.
+* pika.
+* faker.
+* factory_boy.
+* RabbitMQ docker image.
