@@ -1,5 +1,6 @@
 import functools
 import logging
+import json
 
 from pika_client.base import Connector
 from pika_client.environment_variables import EnvironmentVariable
@@ -9,7 +10,16 @@ LOGGER = logging.getLogger(__name__)
 
 
 class EmailPublisher(BasePubSubPublisher):
-    pass
+    def handle_acknowledged_message(self, method_frame):
+        """
+        Overriding this method to stop the service after a message is acknowledged.
+        """
+        self.stop()
+
+    def encode_message_and_properties(self, message):
+        properties = self.get_message_properties(content_type='application/json')
+        message = json.dumps(message, ensure_ascii=False)
+        return message, properties
 
 
 def publish_message(msg, connector, exchange_type='topic', routing_key='notifications.email'):
